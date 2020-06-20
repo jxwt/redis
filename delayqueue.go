@@ -115,7 +115,7 @@ func (i *DelayQueue) ReadyHandle() {
 					if err != nil {
 						// 处理失败 需要归还key
 						logs.Info("添加延时: ", jobId)
-						err := redis.ZAdd(topic, time.Now().Unix()+5, jobId)
+						err := ZAdd(topic, time.Now().Unix()+5, jobId)
 						if err != nil {
 							logs.Error("延时队列 zadd topic:%s failed", topic)
 						}
