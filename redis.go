@@ -1,7 +1,6 @@
 package redis
 
 import (
-	"errors"
 	"fmt"
 	"github.com/astaxie/beego/logs"
 	"github.com/garyburd/redigo/redis"
@@ -17,9 +16,6 @@ type Params struct {
 	RedisMaxTimeOut int
 }
 var client *redis.Pool
-
-// ErrNil indicates that a reply value is nil.
-var ErrNil = errors.New("redigo: nil returned")
 
 func InitRedis(c *Params) {
 	client = &redis.Pool{
