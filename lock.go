@@ -32,16 +32,16 @@ func (lock *Lock) Unlock() (err error) {
 }
 
 func (lock *Lock) key() string {
-	return fmt.Sprint("redislock:%s", lock.resource)
+	return fmt.Sprintf("redis lock:%s", lock.resource)
 }
 
-func (lock *Lock) AddTimeout(ex_time int64) (ok bool, err error) {
+func (lock *Lock) AddTimeout(exTime int64) (ok bool, err error) {
 	ttlTime, err := redis.Int64(lock.conn.Do("TTL", lock.key()))
 	if err != nil {
 		logs.Error("redis get failed:", err)
 	}
 	if ttlTime > 0 {
-		_, err := redis.String(lock.conn.Do("SET", lock.key(), lock.token, "EX", int(ttlTime+ex_time)))
+		_, err := redis.String(lock.conn.Do("SET", lock.key(), lock.token, "EX", int(ttlTime+exTime)))
 		if err == redis.ErrNil {
 			return false, nil
 		}
