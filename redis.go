@@ -339,3 +339,11 @@ func ZRemRangeByScore(key string, min, max int64) (map[string]string, error) {
 func GetClient() redis.Conn {
 	return client.Get()
 }
+
+
+func CmdDo(cmd string, args ...interface{}) error {
+	conn := client.Get()
+	defer conn.Close()
+	_,  err := conn.Do(cmd, args...)
+	return err
+}
